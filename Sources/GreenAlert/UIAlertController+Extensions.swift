@@ -3,36 +3,34 @@ import SafeSubscripts
 
 @MainActor
 public extension UIAlertController {
-    enum AlertBehavior {
-        case never
-        case ifUserHasntMuted
-        case evenIfMuted
-    }
-    
-    enum AlertSource {
-        case view(UIView, CGRect = CGRect.null)
-        case barButtonItem(UIBarButtonItem)
+    enum AlertStyle {
+        case alert
+        case actionSheet(source: Source) // You need a source to use an action sheet!
         
-        static func optional(view: UIView?, rect: CGRect? = CGRect.null) -> AlertSource? {
-            guard let view = view, let rect = rect else { return nil }
-            return .view(view, rect)
-        }
-        
-        static func optional(barButtonItem: UIBarButtonItem?) -> AlertSource? {
-            guard let barButtonItem = barButtonItem else { return nil }
-            return .barButtonItem(barButtonItem)
+        public enum Source {
+            case view(UIView, CGRect = CGRect.null)
+            case barButtonItem(UIBarButtonItem)
+            
+            static func optional(view: UIView?, rect: CGRect? = CGRect.null) -> Source? {
+                guard let view = view, let rect = rect else { return nil }
+                return .view(view, rect)
+            }
+            
+            static func optional(barButtonItem: UIBarButtonItem?) -> Source? {
+                guard let barButtonItem = barButtonItem else { return nil }
+                return .barButtonItem(barButtonItem)
+            }
         }
     }
     
     class func showBasicAlert(_ title: String,
                               message: String,
                               actionIcon: UIAlertAction.Icon? = nil,
-                              preferredAlertStyle: UIAlertController.Style = .alert,
-                              alertSource: AlertSource? = nil,
+                              preferredAlertStyle: AlertStyle = .alert,
                               presentingViewController: UIViewController? = nil,
                               callback: (() -> ())? = nil) {
         
-        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             callback?()
         }
         
@@ -41,8 +39,7 @@ public extension UIAlertController {
         let alertController = buildAlert(title,
                                          message: message,
                                          actions: [okAction],
-                                         preferredAlertStyle: preferredAlertStyle,
-                                         alertSource: alertSource)
+                                         preferredAlertStyle: preferredAlertStyle)
 
         guard let presentingViewController = presentingViewController else {
             presentOnTopVC(alertController)
@@ -59,16 +56,15 @@ public extension UIAlertController {
                                  okActionStyle: UIAlertAction.Style = .default,
                                  okActionIcon: UIAlertAction.Icon? = nil,
                                  preferredAction: UIAlertAction.ActionType = .cancel,
-                                 preferredAlertStyle: UIAlertController.Style = .alert,
-                                 alertSource: AlertSource? = nil,
+                                 preferredAlertStyle: AlertStyle = .alert,
                                  presentingViewController: UIViewController? = nil,
                                  callback:@escaping (_ confirmed: Bool) -> ()) {
         
-        let cancelAction = UIAlertAction(title: cancelButtonText, style: .cancel) { (_) in
+        let cancelAction = UIAlertAction(title: cancelButtonText, style: .cancel) { _ in
             callback(false)
         }
         
-        let okAction = UIAlertAction(title: okButtonText, style: okActionStyle) { (_) in
+        let okAction = UIAlertAction(title: okButtonText, style: okActionStyle) { _ in
             callback(true)
         }
         
@@ -78,8 +74,7 @@ public extension UIAlertController {
                    message: message,
                    actions: [cancelAction, okAction],
                    preferredActionIndex: preferredAction == .ok ? 1 : 0,
-                   preferredAlertStyle: preferredAlertStyle,
-                   alertSource: alertSource)
+                   preferredAlertStyle: preferredAlertStyle)
             .andPresent(presentingViewController: presentingViewController)
     }
     
@@ -89,8 +84,7 @@ public extension UIAlertController {
                                preferredActionIndex: Int? = nil,
                                textFieldConfigurationHandler: ((UITextField) -> ())? = nil,
                                contentViewController: UIViewController? = nil,
-                               preferredAlertStyle: UIAlertController.Style = .alert,
-                               alertSource: AlertSource? = nil,
+                               preferredAlertStyle: AlertStyle = .alert,
                                presentingViewController: UIViewController? = nil,
                                presentionCompletion: (() -> ())? = nil) {
         
@@ -100,8 +94,7 @@ public extension UIAlertController {
                    preferredActionIndex: preferredActionIndex,
                    textFieldConfigurationHandler: textFieldConfigurationHandler,
                    contentViewController: contentViewController,
-                   preferredAlertStyle: preferredAlertStyle,
-                   alertSource: alertSource)
+                   preferredAlertStyle: preferredAlertStyle)
             .andPresent(presentingViewController: presentingViewController)
     }
     
@@ -115,15 +108,14 @@ public extension UIAlertController {
                                   okActionStyle: UIAlertAction.Style = .default,
                                   okActionIcon: UIAlertAction.Icon? = nil,
                                   preferredAction: UIAlertAction.ActionType = .cancel,
-                                  preferredAlertStyle: UIAlertController.Style = .alert,
-                                  alertSource: AlertSource? = nil,
+                                  preferredAlertStyle: AlertStyle = .alert,
                                   presentingViewController: UIViewController? = nil,
                                   callback: @escaping (_ text: String?) -> Void) {
         
         // Allow the okAction handler to obtain a reference.
         var alertController = UIAlertController() // The UIAlertController instance will be different than this, but the pointer will point to the correct one (from buildAlert()) at runtime!
         
-        let okAction = UIAlertAction(title: okButtonText, style: okActionStyle) { (_) in
+        let okAction = UIAlertAction(title: okButtonText, style: okActionStyle) { _ in
             guard let textField = alertController.textFields?[safe: 0] else { return }
             callback(textField.text)
         }
@@ -144,8 +136,7 @@ public extension UIAlertController {
                                         textField.placeholder = placeHolder
                                         textField.keyboardType = keyboardType
                                      },
-                                     preferredAlertStyle: preferredAlertStyle,
-                                     alertSource: alertSource)
+                                     preferredAlertStyle: preferredAlertStyle)
         alertController.andPresent()
     }
     
@@ -169,15 +160,20 @@ public extension UIAlertController {
                                   preferredActionIndex: Int? = nil,
                                   textFieldConfigurationHandler: ((UITextField) -> ())? = nil,
                                   contentViewController: UIViewController? = nil,
-                                  preferredAlertStyle: UIAlertController.Style = .alert,
-                                  alertSource: AlertSource? = nil) -> UIAlertController {
-        var alertStyleToUse = preferredAlertStyle
+                                  preferredAlertStyle: AlertStyle = .alert) -> UIAlertController {
+        let alertStyleToUse: UIAlertController.Style // Apple's type, not ours
         
-        if preferredAlertStyle == .actionSheet && alertSource == nil { // Action Sheets need source UIView+CGRects or a source UIBarButtonItem to work on iPads.
+        // Re-cast to Apple's type in order to pass it into Apple's initializer below.
+        switch preferredAlertStyle {
+        case .alert:
             alertStyleToUse = .alert
+        case .actionSheet(source: _):
+            alertStyleToUse = .actionSheet
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: alertStyleToUse)
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: alertStyleToUse)
         
         if let textFieldConfigurationHandler = textFieldConfigurationHandler {
             alertController.addTextField(configurationHandler: textFieldConfigurationHandler)
@@ -195,12 +191,16 @@ public extension UIAlertController {
             alertController.preferredAction = actions[safe: preferredActionIndex]
         }
         
-        switch alertSource {
-        case let .view(sourceView, sourceRect):
-            alertController.popoverPresentationController?.sourceView = sourceView
-            alertController.popoverPresentationController?.sourceRect = sourceRect
-        case let .barButtonItem(sourceBarButtonItem):
-            alertController.popoverPresentationController?.barButtonItem = sourceBarButtonItem
+        // Action Sheets need source UIView+CGRects or a source UIBarButtonItem to work on iPads.
+        switch preferredAlertStyle {
+        case .actionSheet(source: let source):
+            switch source {
+            case let .view(sourceView, sourceRect):
+                alertController.popoverPresentationController?.sourceView = sourceView
+                alertController.popoverPresentationController?.sourceRect = sourceRect
+            case let .barButtonItem(sourceBarButtonItem):
+                alertController.popoverPresentationController?.barButtonItem = sourceBarButtonItem
+            }
         default: ()
         }
         

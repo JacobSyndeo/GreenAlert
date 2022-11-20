@@ -68,7 +68,7 @@ extension UIAlertAction: SoccerPropertyStoring {
             return getAssociatedObject(&CustomProperties.icon)
         }
         set { // All hail the Obj-C runtime!
-            return objc_setAssociatedObject(self, &CustomProperties.icon, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            return setAssociatedObject(&CustomProperties.icon, newValue: newValue)
         }
     }
 }
