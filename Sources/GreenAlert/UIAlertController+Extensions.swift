@@ -95,7 +95,8 @@ public extension UIAlertController {
                    textFieldConfigurationHandler: textFieldConfigurationHandler,
                    contentViewController: contentViewController,
                    preferredAlertStyle: preferredAlertStyle)
-            .andPresent(presentingViewController: presentingViewController)
+            .andPresent(presentingViewController: presentingViewController,
+                        presentionCompletion: presentionCompletion)
     }
     
     class func showPromptForValue(_ title: String,
