@@ -49,6 +49,13 @@ UIAlertController.showOKCancelAlert("Title", message: "Message") { confirmed in
 }
 ```
 
+Or, if you're using Swift Concurrency:
+```Swift
+if await UIAlertController.showOKCancelAlert("Title", message: "Message") {
+    // User tapped OK!
+}
+```
+
 Now, isn't that nicer?
 
 _But wait, there's more._
