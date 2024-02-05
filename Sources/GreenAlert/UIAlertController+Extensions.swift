@@ -25,12 +25,14 @@ public extension UIAlertController {
     
     class func showBasicAlert(_ title: String,
                               message: String,
+                              buttonText: String = "OK",
+                              actionStyle: UIAlertAction.Style = .default,
                               actionIcon: UIAlertAction.Icon? = nil,
                               preferredAlertStyle: AlertStyle = .alert,
                               presentingViewController: UIViewController? = nil,
                               callback: (() -> ())? = nil) {
-        
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+
+        let okAction = UIAlertAction(title: buttonText, style: actionStyle) { _ in
             callback?()
         }
         
@@ -52,6 +54,8 @@ public extension UIAlertController {
     class func showOKCancelAlert(_ title: String,
                                  message: String,
                                  cancelButtonText: String = "Cancel",
+                                 cancelActionStyle: UIAlertAction.Style = .cancel,
+                                 cancelActionIcon: UIAlertAction.Icon? = nil,
                                  okButtonText: String = "OK",
                                  okActionStyle: UIAlertAction.Style = .default,
                                  okActionIcon: UIAlertAction.Icon? = nil,
@@ -60,10 +64,12 @@ public extension UIAlertController {
                                  presentingViewController: UIViewController? = nil,
                                  callback:@escaping (_ confirmed: Bool) -> ()) {
         
-        let cancelAction = UIAlertAction(title: cancelButtonText, style: .cancel) { _ in
+        let cancelAction = UIAlertAction(title: cancelButtonText, style: cancelActionStyle) { _ in
             callback(false)
         }
-        
+
+        cancelAction.icon = cancelActionIcon
+
         let okAction = UIAlertAction(title: okButtonText, style: okActionStyle) { _ in
             callback(true)
         }

@@ -10,12 +10,16 @@ import UIKit
 public extension UIAlertController {
     class func showBasicAlert(_ title: String,
                               message: String,
+                              buttonText: String = "OK",
+                              actionStyle: UIAlertAction.Style = .default,
                               actionIcon: UIAlertAction.Icon? = nil,
                               preferredAlertStyle: AlertStyle = .alert,
                               presentingViewController: UIViewController? = nil) async {
         await withCheckedContinuation { continuation in
             showBasicAlert(title,
                            message: message,
+                           buttonText: buttonText,
+                           actionStyle: actionStyle,
                            actionIcon: actionIcon,
                            preferredAlertStyle: preferredAlertStyle,
                            presentingViewController: presentingViewController) {
@@ -27,6 +31,8 @@ public extension UIAlertController {
     class func showOKCancelAlert(_ title: String,
                                  message: String,
                                  cancelButtonText: String = "Cancel",
+                                 cancelActionStyle: UIAlertAction.Style = .cancel,
+                                 cancelActionIcon: UIAlertAction.Icon? = nil,
                                  okButtonText: String = "OK",
                                  okActionStyle: UIAlertAction.Style = .default,
                                  okActionIcon: UIAlertAction.Icon? = nil,
@@ -37,6 +43,8 @@ public extension UIAlertController {
             showOKCancelAlert(title,
                               message: message,
                               cancelButtonText: cancelButtonText,
+                              cancelActionStyle: cancelActionStyle,
+                              cancelActionIcon: cancelActionIcon,
                               okButtonText: okButtonText,
                               okActionStyle: okActionStyle,
                               okActionIcon: okActionIcon,
