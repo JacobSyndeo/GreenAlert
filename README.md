@@ -1,6 +1,6 @@
 # ✅ GreenAlert
 
-A really useful way to use UIAlertController, using extensions.
+A really useful way to use `UIAlertController`, using extensions.
 
 Let's say you want to show a basic alert.
 
@@ -60,13 +60,11 @@ Now, isn't that nicer?
 
 _But wait, there's more._
 
-With GreenAlert, you're granted all sorts of UIAlertController superpowers, including the following:
+With GreenAlert, you're granted all sorts of `UIAlertController` superpowers, including the following:
 - Customizations galore
-    - Any alert:
-        - SAFELY set alert style to action sheet, using enums to enforce the presence of source information.
-            - I say "safely" here because you can easily crash an iPadOS app by creating an actionSheet and forgetting to set the `popoverPresentationController`'s sourceView, sourceRect, or `barButtonItem`. These crashes don't occur on iPhones, and are therefore easy to miss if you don't test throughly. Using GreenAlert eliminates these crashes.
-    - OK-Cancel alerts:
-        - Custom action icon, via SF Symbols (preferred) or a UIImage
+  - SAFELY set alert style to action sheet, using enums to enforce the presence of source information.
+    - I say "safely" here because you can easily crash an iPadOS app by creating an `.actionSheet` and forgetting to set the `popoverPresentationController`'s `sourceView`, `sourceRect`, or `barButtonItem`. These crashes don't occur on iPhones, and are therefore easy to miss if you don't test throughly. Using GreenAlert eliminates these crashes.
+  - Custom button action icons, via SF Symbols (preferred) or a `UIImage`
 - Show prompts for values
     - With all the customizations listed above, but also including customizable:
         - preset text
@@ -74,4 +72,11 @@ With GreenAlert, you're granted all sorts of UIAlertController superpowers, incl
         - keyboard type
 - Add progress bars to alert controllers
 
-…And more!
+…And even more!
+
+So give it a shot! 😁
+
+If you're anything less than delighted, or have any ideas on how to improve GreenAlert, be sure to [open an issue](https://github.com/JacobSyndeo/GreenAlert/issues), and I'll be sure to address it!
+
+If you like GreenAlert, be sure to check out my other projects:
+- 🎆 [Ether](https://github.com/JacobSyndeo/Ether), a delightful and easy to understand networking library for Swift
