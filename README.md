@@ -1,4 +1,4 @@
-# GreenAlert ✅
+# ✅ GreenAlert
 
 A really useful way to use UIAlertController, using extensions.
 
