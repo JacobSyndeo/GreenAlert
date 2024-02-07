@@ -9,7 +9,7 @@ GreenAlert is a really useful way to use `UIAlertController`, using extensions.
 Let's say you want to show a basic alert.
 
 Rather than writing this:
-```Swift
+```swift
 let alertController = UIAlertController(title: "Title", message: "Message")
 
 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -22,14 +22,14 @@ present(alertController, animated: true, completion: nil)
 ```
 
 You can write this:
-```Swift
+```swift
 UIAlertController.showBasicAlert("Title", message: "Message")
 ```
 
 Not a big enough difference for you? Okay, let's suppose you've got a more complicated one.
 
 Instead of THIS:
-```Swift
+```swift
 let alertController = UIAlertController(title: "Title", message: "Message")
 
 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -47,14 +47,14 @@ present(alertController, animated: true, completion: nil)
 ```
 
 Why not have this:
-```Swift
+```swift
 UIAlertController.showOKCancelAlert("Title", message: "Message") { confirmed in
     // Handle OK or Cancel based on `confirmed` being true or false
 }
 ```
 
 Or, if you're using Swift Concurrency:
-```Swift
+```swift
 if await UIAlertController.showOKCancelAlert("Title", message: "Message") {
     // User tapped OK!
 }
@@ -80,7 +80,11 @@ With GreenAlert, you're granted all sorts of `UIAlertController` superpowers, in
 
 So give it a shot! 😁
 
+## Support
+
 If you're anything less than delighted, or have any ideas on how to improve GreenAlert, be sure to [open an issue](https://github.com/JacobSyndeo/GreenAlert/issues), and I'll be sure to address it!
+
+## More
 
 If you like GreenAlert, be sure to check out my other projects:
 - 🎆 [Ether](https://github.com/JacobSyndeo/Ether), a delightful and easy to understand networking library for Swift
