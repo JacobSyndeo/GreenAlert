@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "safesubscripts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JacobSyndeo/SafeSubscripts",
+      "state" : {
+        "revision" : "34cf5ac985831b8a87908e23d01b63506b6609b6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "soccer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JacobSyndeo/Soccer",
+      "state" : {
+        "revision" : "0ea3b3e5f358e820292066c73ddcbebd22d2205c",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-docc-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/themomax/swift-docc-plugin",
+      "state" : {
+        "branch" : "add-extended-types-flag",
+        "revision" : "c234e513e501a91e80a3d1e3e5e274cb21c59d7f"
+      }
+    },
+    {
+      "identity" : "swift-docc-symbolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-symbolkit",
+      "state" : {
+        "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

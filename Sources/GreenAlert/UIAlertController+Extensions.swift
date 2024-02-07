@@ -3,19 +3,33 @@ import SafeSubscripts
 
 @MainActor
 public extension UIAlertController {
+    /// The style of the alert.
     enum AlertStyle {
+        /// A standard alert.
         case alert
+        /// An action sheet.
+        /// - Parameter source: The source of the action sheet. This is required for iPads.
         case actionSheet(source: Source) // You need a source to use an action sheet!
         
         public enum Source {
+            /// The source view and rect for the action sheet.
             case view(UIView, CGRect = CGRect.null)
+            /// The source bar button item for the action sheet.
             case barButtonItem(UIBarButtonItem)
             
+            /// An "optional initializer" for Source. If the view or rect is `nil`, the source will be `nil`.
+            /// - Parameters:
+            ///   - view: The source view.
+            ///   - rect: The source rect. Default is `CGRect.null`.
+            /// - Returns: The source, or `nil` if the view or rect is `nil`.
             static func optional(view: UIView?, rect: CGRect? = CGRect.null) -> Source? {
                 guard let view = view, let rect = rect else { return nil }
                 return .view(view, rect)
             }
             
+            /// An "optional initializer" for Source. If the bar button item is `nil`, the source will be `nil`.
+            /// - Parameter barButtonItem: The bar button item to use as the source.
+            /// - Returns: The source, or `nil` if the bar button item is `nil`.
             static func optional(barButtonItem: UIBarButtonItem?) -> Source? {
                 guard let barButtonItem = barButtonItem else { return nil }
                 return .barButtonItem(barButtonItem)
@@ -23,6 +37,16 @@ public extension UIAlertController {
         }
     }
     
+    /// Shows a basic alert with a single "OK" button.
+    /// - Parameters:
+    ///   - title: The title of the alert.
+    ///   - message: The message of the alert.
+    ///   - buttonText: The text of the button. Default is "OK".
+    ///   - actionStyle: The style of the button. Default is `.default`.
+    ///   - actionIcon: The icon of the button. Default is `nil`.
+    ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
+    ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    ///   - callback: The callback to be called when the button is tapped. Default is `nil`, meaning nothing happens when the button is tapped.
     class func showBasicAlert(_ title: String,
                               message: String,
                               buttonText: String = "OK",
@@ -51,6 +75,21 @@ public extension UIAlertController {
         presentingViewController.present(alertController, animated: true, completion: nil)
     }
     
+    
+    /// Shows an alert with "OK" and "Cancel" buttons.
+    /// - Parameters:
+    ///   - title: The title of the alert.
+    ///   - message: The message of the alert.
+    ///   - cancelButtonText: The text of the cancel button. Default is "Cancel".
+    ///   - cancelActionStyle: The style of the cancel button. Default is `.cancel`.
+    ///   - cancelActionIcon: The icon of the cancel button. Default is `nil`.
+    ///   - okButtonText: The text of the OK button. Default is "OK".
+    ///   - okActionStyle: The style of the OK button. Default is `.default`.
+    ///   - okActionIcon: The icon of the OK button. Default is `nil`.
+    ///   - preferredAction: The preferred action. This information is passed to the `UIAlertController` instance, which will then give the action more visual prominence. Default is `.cancel`.
+    ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
+    ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    ///   - callback: The callback to be called, with a boolean indicating whether the OK button (true) or the Cancel button (false) was tapped.
     class func showOKCancelAlert(_ title: String,
                                  message: String,
                                  cancelButtonText: String = "Cancel",
@@ -84,6 +123,17 @@ public extension UIAlertController {
             .andPresent(presentingViewController: presentingViewController)
     }
     
+    /// Shows an alert with custom actions.
+    /// - Parameters:
+    ///   - title: The title of the alert.
+    ///   - message: The message of the alert.
+    ///   - actions: The actions to be displayed in the alert.
+    ///   - preferredActionIndex: Allows you to specify which action should be the preferred action. This information is passed to the `UIAlertController` instance, which will then give the action more visual prominence. Default is `nil`.
+    ///   - textFieldConfigurationHandler: If not `nil`, the alert will contain a text field with the given configuration. Default is `nil`.
+    ///   - contentViewController: A view controller to be displayed in the alert. Default is `nil`.
+    ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
+    ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    ///   - presentionCompletion: The completion handler to be called when the alert is presented. Default is `nil`.
     class func showCustomAlert(_ title: String,
                                message: String? = nil,
                                actions: [UIAlertAction],
@@ -105,6 +155,21 @@ public extension UIAlertController {
                         presentionCompletion: presentionCompletion)
     }
     
+    /// Shows a prompt for a value.
+    /// - Parameters:
+    ///   - title: The title of the prompt.
+    ///   - message: The message of the prompt.
+    ///   - presetText: The text to be pre-filled in the text field. Default is an empty string.
+    ///   - placeHolder: The placeholder of the text field. Default is an empty string.
+    ///   - keyboardType: The keyboard type of the text field. Default is `.asciiCapable`.
+    ///   - cancelButtonText: The text of the cancel button. Default is "Cancel".
+    ///   - okButtonText: The text of the OK button. Default is "OK".
+    ///   - okActionStyle: The style of the OK button. Default is `.default`.
+    ///   - okActionIcon: The icon of the OK button. Default is `nil`.
+    ///   - preferredAction: The preferred action. This information is passed to the `UIAlertController` instance, which will then give the action more visual prominence. Default is `.cancel`.
+    ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
+    ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    ///   - callback: The callback to be called, with the text entered by the user, or `nil` if the user tapped the cancel button.
     class func showPromptForValue(_ title: String,
                                   message: String,
                                   presetText: String = "",
@@ -147,6 +212,8 @@ public extension UIAlertController {
         alertController.andPresent()
     }
     
+    /// Adds a progress bar to the alert.
+    /// - Returns: The progress bar that was added to the alert.
     func addProgressBar() -> UIProgressView {
         let margin: CGFloat = 8
         let height: CGFloat = 2
@@ -161,6 +228,16 @@ public extension UIAlertController {
         return progressBar // For later modification as needed
     }
     
+    /// Builds an alert with the given parameters.
+    /// - Parameters:
+    ///   - title: The title of the alert.
+    ///   - message: The message of the alert.
+    ///   - actions: The actions to be displayed in the alert.
+    ///   - preferredActionIndex: Allows you to specify which action should be the preferred action. This information is passed to the `UIAlertController` instance, which will then give the action more visual prominence. Default is `nil`.
+    ///   - textFieldConfigurationHandler: If not `nil`, the alert will contain a text field with the given configuration. Default is `nil`.
+    ///   - contentViewController: A view controller to be displayed in the alert. Default is `nil`.
+    ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
+    /// - Returns: The alert controller that was built.
     private class func buildAlert(_ title: String,
                                   message: String? = nil,
                                   actions: [UIAlertAction],
@@ -214,6 +291,10 @@ public extension UIAlertController {
         return alertController
     }
     
+    /// Presents the alert on the given view controller, or on the top view controller if none is given.
+    /// - Parameters:
+    ///   - presentingViewController: The view controller on which to present the alert. If left as the default `nil`, the alert will be presented on the top view controller.
+    ///   - presentionCompletion: The completion handler to be called when the alert is presented. Default is `nil`.
     private func andPresent(presentingViewController: UIViewController? = nil, presentionCompletion: (() -> ())? = nil) {
         guard let presentingViewController = presentingViewController else {
             UIAlertController.presentOnTopVC(self, animated: true, completion: presentionCompletion)
@@ -223,7 +304,12 @@ public extension UIAlertController {
         presentingViewController.present(self, animated: true, completion: presentionCompletion)
     }
     
-    class func presentOnTopVC(_ alertController: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
+    /// Presents the alert on the top view controller.
+    /// - Parameters:
+    ///   - alertController: The alert controller to be presented.
+    ///   - animated: Whether to animate the presentation. Default is `true`.
+    ///   - completion: The completion handler to be called when the alert is presented. Default is `nil`.
+    private class func presentOnTopVC(_ alertController: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
         Task {
             await MainActor.run {
                 if alertController.preferredStyle == .actionSheet,

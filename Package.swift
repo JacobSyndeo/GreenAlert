@@ -6,25 +6,26 @@ import PackageDescription
 let package = Package(
     name: "GreenAlert",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
+        .macCatalyst(.v13)
     ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        // ✅ GreenAlert
         .library(
             name: "GreenAlert",
             targets: ["GreenAlert"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/JacobSyndeo/SafeSubscripts", from: "1.0.0"),
-        .package(url: "https://github.com/JacobSyndeo/Soccer", from: "1.0.0")
+        .package(url: "https://github.com/JacobSyndeo/Soccer", from: "1.0.0"),
+        .package(url: "https://github.com/themomax/swift-docc-plugin", branch: "add-extended-types-flag")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        // ✅ GreenAlert
         .target(
             name: "GreenAlert",
-            dependencies: ["SafeSubscripts", "Soccer"]),
+            dependencies: ["SafeSubscripts", "Soccer"],
+            swiftSettings: [.unsafeFlags(["-emit-extension-block-symbols"])]),
         .testTarget(
             name: "GreenAlertTests",
             dependencies: ["GreenAlert"]),
