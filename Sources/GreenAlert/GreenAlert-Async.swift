@@ -77,4 +77,34 @@ public extension UIAlertController {
             }
         }
     }
+
+    class func showPromptForValue(_ title: String,
+                                  message: String,
+                                  presetText: String = "",
+                                  placeHolder: String = "",
+                                  keyboardType: UIKeyboardType = .asciiCapable,
+                                  cancelButtonText: String = "Cancel",
+                                  okButtonText: String = "OK",
+                                  okActionStyle: UIAlertAction.Style = .default,
+                                  okActionIcon: UIAlertAction.Icon? = nil,
+                                  preferredAction: UIAlertAction.ActionType = .cancel,
+                                  preferredAlertStyle: AlertStyle = .alert,
+                                  presentingViewController: UIViewController? = nil) async -> String? {
+        await withCheckedContinuation { continuation in
+            showPromptForValue(title,
+                               message: message,
+                               presetText: presetText,
+                               placeHolder: placeHolder,
+                               keyboardType: keyboardType,
+                               cancelButtonText: cancelButtonText,
+                               okButtonText: okButtonText,
+                               okActionStyle: okActionStyle,
+                               okActionIcon: okActionIcon,
+                               preferredAction: preferredAction,
+                               preferredAlertStyle: preferredAlertStyle,
+                               presentingViewController: presentingViewController) { text in
+                continuation.resume(returning: text)
+            }
+        }
+    }
 }
