@@ -48,6 +48,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     ///   - callback: The callback to be called when the button is tapped. Default is `nil`, meaning nothing happens when the button is tapped.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showBasicAlert(_:message:buttonText:actionStyle:actionIcon:preferredAlertStyle:presentingViewController:)``, the async/await version of this method.
     class func showBasicAlert(_ title: String,
                               message: String,
                               buttonText: String = "OK",
@@ -91,6 +92,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     ///   - callback: The callback to be called, with a boolean indicating whether the OK button (true) or the Cancel button (false) was tapped.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showOKCancelAlert(_:message:cancelButtonText:cancelActionStyle:cancelActionIcon:okButtonText:okActionStyle:okActionIcon:preferredAction:preferredAlertStyle:presentingViewController:)``, the async/await version of this method.
     class func showOKCancelAlert(_ title: String,
                                  message: String,
                                  cancelButtonText: String = "Cancel",
@@ -135,6 +137,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     ///   - presentionCompletion: The completion handler to be called when the alert is presented. Default is `nil`.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showCustomAlert(_:message:actions:preferredActionIndex:textFieldConfigurationHandler:contentViewController:preferredAlertStyle:presentingViewController:)``, the async/await version of this method.
     class func showCustomAlert(_ title: String,
                                message: String? = nil,
                                actions: [UIAlertAction],
@@ -171,6 +174,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     ///   - callback: The callback to be called, with the text entered by the user, or `nil` if the user tapped the cancel button.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showPromptForValue(_:message:presetText:placeHolder:keyboardType:cancelButtonText:okButtonText:okActionStyle:okActionIcon:preferredAction:preferredAlertStyle:presentingViewController:)``, the async/await version of this method.
     class func showPromptForValue(_ title: String,
                                   message: String,
                                   presetText: String = "",
@@ -327,7 +331,11 @@ public extension UIAlertController {
 }
 
 fileprivate extension UIApplication {
-    /// EZSE: Get the top most view controller from the base view controller; default param is UIWindow's rootViewController
+    /// Get the topmost view controller, regardless of the current view hierarchy.
+    /// - Parameter base: The base view controller. Default is the key window's root view controller.
+    /// - Returns: The topmost view controller.
+    ///
+    /// Based on EZSE's implementation.
     class func topViewController(_ base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return topViewController(nav.visibleViewController)

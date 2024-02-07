@@ -18,6 +18,7 @@ public extension UIAlertController {
     ///   - actionIcon: The icon of the button. Default is `nil`.
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showBasicAlert(_:message:buttonText:actionStyle:actionIcon:preferredAlertStyle:presentingViewController:callback:)``, the callback-based version of this method.
     class func showBasicAlert(_ title: String,
                               message: String,
                               buttonText: String = "OK",
@@ -52,6 +53,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     /// - Returns: A boolean indicating whether the OK button (true) or the Cancel button (false) was tapped.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showOKCancelAlert(_:message:cancelButtonText:cancelActionStyle:cancelActionIcon:okButtonText:okActionStyle:okActionIcon:preferredAction:preferredAlertStyle:presentingViewController:callback:)``, the callback-based version of this method.
     class func showOKCancelAlert(_ title: String,
                                  message: String,
                                  cancelButtonText: String = "Cancel",
@@ -90,6 +92,7 @@ public extension UIAlertController {
     ///   - contentViewController: A view controller to be displayed in the alert. Default is `nil`.
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showCustomAlert(_:message:actions:preferredActionIndex:textFieldConfigurationHandler:contentViewController:preferredAlertStyle:presentingViewController:presentionCompletion:)``, the callback-based version of this method.
     class func showCustomAlert(_ title: String,
                                message: String? = nil,
                                actions: [UIAlertAction],
@@ -127,6 +130,7 @@ public extension UIAlertController {
     ///   - preferredAlertStyle: The style of the alert. Default is `.alert`.
     ///   - presentingViewController: If you want to present the alert on a specific view controller, you can specify it here. If left as the default `nil`, the alert will be presented on the top view controller.
     /// - Returns: The text entered by the user, or `nil` if the user tapped the cancel button.
+    /// - SeeAlso: ``GreenAlert/UIKit/UIAlertController/showPromptForValue(_:message:presetText:placeHolder:keyboardType:cancelButtonText:okButtonText:okActionStyle:okActionIcon:preferredAction:preferredAlertStyle:presentingViewController:callback:)``, the callback-based version of this method.
     class func showPromptForValue(_ title: String,
                                   message: String,
                                   presetText: String = "",
