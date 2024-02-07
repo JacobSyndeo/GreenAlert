@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// A collection of async/await extensions for `UIAlertController`.
 public extension UIAlertController {
     /// Shows a basic alert with a single "OK" button.
     /// - Parameters:

@@ -1,6 +1,7 @@
 import UIKit
 import SafeSubscripts
 
+/// A collection of extensions for `UIAlertController`.
 @MainActor
 public extension UIAlertController {
     /// The style of the alert.
@@ -223,7 +224,6 @@ public extension UIAlertController {
                           width: view.frame.width - (margin * 2),
                           height: height)
         let progressBar = UIProgressView(frame: rect)
-//        progressBar.tintColor = TintColor.current.color
         view.addSubview(progressBar)
         return progressBar // For later modification as needed
     }
@@ -295,7 +295,7 @@ public extension UIAlertController {
     /// - Parameters:
     ///   - presentingViewController: The view controller on which to present the alert. If left as the default `nil`, the alert will be presented on the top view controller.
     ///   - presentionCompletion: The completion handler to be called when the alert is presented. Default is `nil`.
-    private func andPresent(presentingViewController: UIViewController? = nil, presentionCompletion: (() -> ())? = nil) {
+    func andPresent(presentingViewController: UIViewController? = nil, presentionCompletion: (() -> ())? = nil) {
         guard let presentingViewController = presentingViewController else {
             UIAlertController.presentOnTopVC(self, animated: true, completion: presentionCompletion)
             return
@@ -309,7 +309,7 @@ public extension UIAlertController {
     ///   - alertController: The alert controller to be presented.
     ///   - animated: Whether to animate the presentation. Default is `true`.
     ///   - completion: The completion handler to be called when the alert is presented. Default is `nil`.
-    private class func presentOnTopVC(_ alertController: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
+    class func presentOnTopVC(_ alertController: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
         Task {
             await MainActor.run {
                 if alertController.preferredStyle == .actionSheet,
