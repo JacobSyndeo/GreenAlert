@@ -79,4 +79,4 @@ So give it a shot! 😁
 If you're anything less than delighted, or have any ideas on how to improve GreenAlert, be sure to [open an issue](https://github.com/JacobSyndeo/GreenAlert/issues), and I'll be sure to address it!
 
 If you like GreenAlert, be sure to check out my other projects:
-- 🎆 [Ether](https://github.com/JacobSyndeo/Ether), a delightful and easy to understand networking library for Swift
+- 🎆 [Ether](https://github.com/JacobSyndeo/Ether), a _delightful_ networking library for Swift
